@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-sm p-4 text-center"> <!-- ✅ Добавил text-center для выравнивания -->
+        <h2 class="text-center">{{ post.content }}</h2>
+        <p class="text-muted text-center">
+            📝 Автор: <strong>{{ post.user.username }}</strong> | 🕒 Дата: {{ post.created_at|date:"d M Y, H:i" }}
+        </p>
+
+        {% if post.images.all %}
+        <h4 class="mt-4">Изображения:</h4>
+
+        <!-- ✅ Карусель в `post_detail.html` с центрированием -->
+        <div id="carouselPost{{ post.id }}" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: 500px;"> <!-- ✅ Центрирование mx-auto -->
+            <div class="carousel-inner">
+                {% for image in post.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ image.image.url }}" alt="Изображение поста" class="img-fluid rounded"
+                        style="max-width: 100%;"> <!-- ✅ Сделал 100% ширину для корректного масштабирования -->
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if post.images.count > 1 %} <!-- ✅ Теперь стрелки только при >1 изображении -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPost{{ post.id }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPost{{ post.id }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'posts:post_list' %}" class="btn btn-secondary">📄 Назад к списку постов</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

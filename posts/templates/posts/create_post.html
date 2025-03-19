@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Создание поста{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-center">
+    <div class="container" style="max-width: 600px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+        <h2 class="text-center">📸 Создать новый пост</h2>
+
+        <!-- Обработка ошибок формы -->
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                <li><strong>{{ field }}:</strong> {{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" class="mt-4">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="id_content" class="form-label">✍️ Текст поста</label>
+                {{ form.content }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_images" class="form-label">📷 Изображения</label>
+                <input type="file" name="images" id="id_images" class="form-control" multiple>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_tags" class="form-label">🏷️ Теги (через запятую)</label>
+                {{ form.tags }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">🚀 Опубликовать</button>
+            <a href="{% url 'posts:post_list' %}" class="btn btn-secondary w-100 mt-2">📄 Назад к постам</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

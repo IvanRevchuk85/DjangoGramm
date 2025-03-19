@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Лента постов{% endblock %}
+
+{% block content %}
+<h1 class="text-center text-dark">Лента постов</h1>
+
+<div class="d-flex justify-content-between mb-3">
+    <a href="{% url 'users:profile' %}" class="btn btn-secondary">Вернуться в профиль</a>
+    <a href="{% url 'posts:create_post' %}" class="btn btn-success">Создать пост</a>
+</div>
+
+{% if posts %}
+    {% for post in posts %}
+    <div class="post-container p-3 mb-3 bg-white rounded shadow-sm">
+        <p><strong>{{ post.user.username }}</strong></p>
+
+        <!-- ✅ Детали поста -->
+        <a href="{% url 'posts:post_detail' post.id %}" class="text-decoration-none">
+            <p class="fw-bold">{{ post.content }}</p>
+        </a>
+
+        <!-- ✅ Дата публикации -->
+        <p class="text-muted small">
+            Опубликовано: {{ post.created_at|date:"d.m.Y (l)" }}
+        </p>
+
+        <a href="{% url 'posts:post_detail' post.id %}" class="text-decoration-none">
+            <p class="fw-bold">{{ post.content }}</p>
+        </a>
+
+        {% if request.user != post.user %}
+            {% if post.is_followed %}
+                <button type="button" class="btn btn-danger btn-sm follow-button"
+                    data-user-id="{{ post.user.id }}" data-following="true">
+                    Отписаться
+                </button>
+            {% else %}
+                <button type="button" class="btn btn-primary btn-sm follow-button"
+                    data-user-id="{{ post.user.id }}" data-following="false">
+                    Подписаться
+                </button>
+            {% endif %}
+        {% endif %}
+
+        {% if post.has_images %}
+        <div id="carousel{{ post.id }}" class="carousel slide mx-auto" data-bs-ride="carousel" style="max-width: 500px;">
+            <div class="carousel-inner">
+                {% for image in post.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <a href="{% url 'posts:post_detail' post.id %}">
+                        <img src="{{ image.image.url }}" class="img-fluid post-image">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% if post.images.count > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ post.id }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ post.id }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <button class="btn btn-outline-primary btn-sm like-button" data-post-id="{{ post.id }}" onclick="toggleLike({{ post.id }})">
+            👍 Лайк (<span id="like-count-{{ post.id }}">{{ post.likes.count }}</span>)
+        </button>
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="text-center text-muted">❌ Пока нет постов</p>
+{% endif %}
+{% endblock %}

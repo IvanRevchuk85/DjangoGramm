@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Редактирование профиля</h2>
+
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="mb-3">{{ form.full_name.label_tag }} {{ form.full_name }}</div>
+        <div class="mb-3">{{ form.bio.label_tag }} {{ form.bio }}</div>
+        <div class="mb-3">{{ form.avatar.label_tag }} {{ form.avatar }}</div>
+
+        <button type="submit" class="btn btn-success w-100">Сохранить изменения</button>
+        <a href="{% url 'users:profile' %}" class="btn btn-secondary w-100 mt-2">Отмена</a>
+    </form>
+</div>
+{% endblock %}

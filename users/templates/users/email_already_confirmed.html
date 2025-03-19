@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Email уже подтвержден{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="card shadow-sm p-4">
+        <h2>Email уже подтвержден!</h2>
+        <p>Вы уже подтвердили свой адрес электронной почты. Теперь вы можете войти в свою учетную запись.</p>
+        <a href="{% url 'users:login' %}" class="btn btn-primary">Перейти к странице входа</a>
+    </div>
+</div>
+{% endblock %}

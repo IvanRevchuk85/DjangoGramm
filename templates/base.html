@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}DjangoGramm{% endblock %}</title>
+
+    <!-- Подключение стилей Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <style>
+        /* Фиксируем header сверху */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: #212529;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 3px 0; /* Сделал меньше */
+        }
+
+        /* Уменьшаем высоту навбара */
+        .navbar {
+            min-height: 40px; /* Было больше, теперь компактно */
+            padding: 0;
+        }
+
+        /* Фиксируем footer внизу */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #212529;
+            color: white;
+            padding: 8px; /* Сделал меньше */
+            text-align: center;
+            z-index: 1000;
+        }
+
+        /* Делаем отступ для контента */
+        main {
+            padding-top: 50px;  /* Чтобы контент не перекрывался хедером */
+            padding-bottom: 50px; /* Чтобы не перекрывал футер */
+        }
+    </style>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+
+<body class="bg-light">
+
+    <!-- CSRF-токен для AJAX -->
+    <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+
+    <header class="container-fluid py-1"> <!-- Был py-2, сделал py-1 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container d-flex justify-content-between">
+                <a class="navbar-brand" href="{% url 'posts:post_list' %}">📸 DjangoGramm</a>
+                <div class="d-flex">
+                    {% if user.is_authenticated %}
+                        <a class="nav-link text-white me-2" href="{% url 'users:profile' %}">👤 Профиль</a>
+                        <form action="{% url 'users:logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">🚪 Выйти</button>
+                        </form>
+                    {% else %}
+                        <a class="btn btn-primary btn-sm text-white me-2" href="{% url 'users:login' %}">🔑 Войти</a>
+                        <a class="btn btn-success btn-sm text-white" href="{% url 'users:register' %}">📝 Регистрация</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mt-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center bg-dark text-white py-2">
+        <p>© 2025 DjangoGramm | Сделано с ❤️</p>
+    </footer>
+
+    <!-- Подключение Bootstrap -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Подключаем Webpack-собранный bundle.js -->
+    <script src="{% static 'frontend/bundle.js' %}"></script>
+
+</body>
+</html>
