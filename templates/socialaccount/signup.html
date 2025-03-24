@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Регистрация через соцсеть{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4">
+                <h2 class="text-center mb-4">{% trans "Завершите регистрацию" %}</h2>
+
+                <form method="post" action="{% url 'socialaccount_signup' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success w-100 mt-3">{% trans "Зарегистрироваться" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

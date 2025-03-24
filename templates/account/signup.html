@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-sm p-4">
+            <h2 class="text-center mb-4">📝 Регистрация</h2>
+
+            <form method="post" action="{% url 'account_signup' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
+            </form>
+
+            <hr>
+            <p class="text-center mt-3">Или зарегистрируйтесь с помощью:</p>
+            <div class="text-center">
+                <a href="{% provider_login_url 'github' %}" class="btn btn-dark mb-2">🐙 GitHub</a>
+                <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger">🌐 Google</a>
+            </div>
+
+            <p class="text-center mt-3">Уже есть аккаунт? <a href="{% url 'account_login' %}">Войти</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -69,6 +70,8 @@
                         </form>
                     {% else %}
                         <a class="btn btn-primary btn-sm text-white me-2" href="{% url 'users:login' %}">🔑 Войти</a>
+                        <a href="{% provider_login_url 'github' %}">🐙 Войти через GitHub</a>
+                        <a href="{% provider_login_url 'google' %}">🔵 Войти через Google</a>
                         <a class="btn btn-success btn-sm text-white" href="{% url 'users:register' %}">📝 Регистрация</a>
                     {% endif %}
                 </div>

@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load socialaccount %}
+
 
 {% block title %}Вход{% endblock %}
 
@@ -32,6 +34,12 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">🔓 Войти</button>
+
+                <div class="text-center mt-3">
+                    <p>Или войдите с помощью:</p>
+                    <a href="{% provider_login_url 'github' %}">🐙 Войти через GitHub</a>
+                    <a href="{% provider_login_url 'google' %}">🔵 Войти через Google</a>
+                </div>
             </form>
 
             <p class="text-center mt-3">

@@ -50,15 +50,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'debug_toolbar',
+
+    # Allauth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+
     'users',
     'posts',
     'cloudinary',
     'cloudinary_storage',
 ]
+SITE_ID = 1 # Для allauth
 
 MIDDLEWARE = [
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -66,6 +74,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'django_gramm.urls'
@@ -132,9 +141,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
      BASE_DIR / 'static',
@@ -147,8 +153,6 @@ if not DEBUG:  # В продакшене (на сервере) статику р
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -162,8 +166,12 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 LOGIN_URL = '/users/login/'
 LOGOUT_URL = '/users/logout/'
-LOGIN_REDIRECT_URL = '/users/profile/'
-LOGOUT_REDIRECT_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/login-error/'  # Добавить обработку ошибки входа
+
+
+# LOGIN_REDIRECT_URL = '/users/profile/'
+# LOGOUT_REDIRECT_URL = '/users/login/'
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -199,6 +207,7 @@ LOGGING = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -212,3 +221,36 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        "APP": {
+            "client_id": os.getenv("SOCIAL_AUTH_GITHUB_KEY"),
+            "secret": os.getenv("SOCIAL_AUTH_GITHUB_SECRET"),
+        }
+    },
+    "google": {
+        "APP": {
+            "client_id": os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY"),
+            "secret": os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET"),
+        }
+    }
+}
+
+# Требуем подтверждения email только при обычной регистрации (через форму)
+# Для соцсетей не работает - там отдельный адаптер отключает подтверждение
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# Email обязателен для всех пользователей. Без него регистрация невозможна.
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Отключаем обязательность username.
+ACCOUNT_USERNAME_REQUIRED = False
+
+# Указываем, что вход/регистрация происходят по email (а не по username).
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# Назначем кастомный адаптер для входа через соцсети.
+# Этот адаптео отключает подтвержение
+SOCIALACCOUNT_ADAPTER = 'users.adapters.NoEmailVerificationSocialAdapter'

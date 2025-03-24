@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load socialaccount %}
+
 
 {% block content %}
     <div class="container text-center mt-5">
@@ -9,6 +11,13 @@
     <div class="d-flex justify-content-center mt-4">
     <a href="{% url 'users:login' %}" class="btn btn-primary btn-lg me-3">🔑 Войти</a>
     <a href="{% url 'users:register' %}" class="btn btn-success btn-lg">📝 Зарегистрироваться</a>
+
+        <!-- Кнопки входа через соцсети -->
+    <div class="mt-3">
+        <p>Или войдите с помощью:</p>
+        <a href="{% provider_login_url 'github' %}">🐙 Войти через GitHub</a>
+        <a href="{% provider_login_url 'google' %}">🔵 Войти через Google</a>
+    </div>
     </div>
 
     <div class="position-absolute bottom-0 end-0 p-3 mb-5">

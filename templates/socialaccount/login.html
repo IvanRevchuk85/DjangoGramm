@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Авторизация через соцсеть{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4">
+                <h2 class="text-center mb-4">{% trans "Подтвердите вход" %}</h2>
+                <p class="text-center">
+                    {% trans "Вы действительно хотите войти как" %} <strong>{{ account.username }}</strong>?
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <button type="submit" class="btn btn-primary w-100 mt-3">{% trans "Продолжить" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
