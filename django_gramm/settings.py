@@ -36,7 +36,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",default="127.0.0.1,localhost").split(",")
 
@@ -166,7 +166,8 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 LOGIN_URL = '/users/login/'
 LOGOUT_URL = '/users/logout/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/users/profile/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 LOGIN_ERROR_URL = '/login-error/'  # Добавить обработку ошибки входа
 
 
