@@ -20,7 +20,7 @@ import cloudinary.api
 from dotenv import load_dotenv
 
 
-# Загружаем .env
+# Loading .env
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path)
 
@@ -28,17 +28,14 @@ load_dotenv(dotenv_path)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",default="127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",
+                          default="127.0.0.1,localhost").split(",")
 
 
 # Application definition
@@ -64,7 +61,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
 ]
-SITE_ID = 1 # Для allauth
+SITE_ID = 1  # for allauth
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -110,9 +107,6 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -143,11 +137,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-     BASE_DIR / 'static',
+    BASE_DIR / 'static',
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-if not DEBUG:  # В продакшене (на сервере) статику раздает Nginx/Gunicorn
+if not DEBUG:  # In production (on screen) statics are distributed by Nginx/Gunicorn
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
@@ -168,11 +162,8 @@ LOGIN_URL = '/users/login/'
 LOGOUT_URL = '/users/logout/'
 LOGIN_REDIRECT_URL = '/users/profile/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-LOGIN_ERROR_URL = '/login-error/'  # Добавить обработку ошибки входа
+LOGIN_ERROR_URL = '/login-error/'  # Add login error handling
 
-
-# LOGIN_REDIRECT_URL = '/users/profile/'
-# LOGOUT_REDIRECT_URL = '/users/login/'
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -239,19 +230,19 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# Требуем подтверждения email только при обычной регистрации (через форму)
-# Для соцсетей не работает - там отдельный адаптер отключает подтверждение
+# We require email confirmation only for regular registration (via form)
+# Doesn't work for social networks - there is a separate adapter that disables confirmation
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-# Email обязателен для всех пользователей. Без него регистрация невозможна.
+# Email is required for all users. Registration is not possible without it.
 ACCOUNT_EMAIL_REQUIRED = True
 
-# Отключаем обязательность username.
+# Disable the requirement for username.
 ACCOUNT_USERNAME_REQUIRED = False
 
-# Указываем, что вход/регистрация происходят по email (а не по username).
+# We indicate that login/registration occurs via email (and not via username).
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-# Назначем кастомный адаптер для входа через соцсети.
-# Этот адаптео отключает подтвержение
+# Assign a custom adapter for logging in via social networks.
+# This adapter disables confirmation
 SOCIALACCOUNT_ADAPTER = 'users.adapters.NoEmailVerificationSocialAdapter'

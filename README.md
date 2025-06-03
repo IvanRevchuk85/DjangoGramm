@@ -1,46 +1,47 @@
-# DjangoGramm - Мини-Instagram на Django 🚀
+# DjangoGramm - Mini Instagram Clone with Django 🚀
 
-DjangoGramm — это мини-аналог Instagram, где пользователи могут регистрироваться, публиковать посты, ставить лайки, подписываться на других пользователей и редактировать профиль.
-
----
-
-## 📌 Основной функционал
-
-✅ **Регистрация и подтверждение email** (с отправкой письма).  
-✅ **Аутентификация пользователей** (логин/выход).  
-✅ **Страница профиля** (имя, email, фото, биография, подписчики).  
-✅ **Создание и отображение постов с изображениями**.  
-✅ **Система тегов** (поиск по тегам, добавление новых).  
-✅ **Лайки к постам** (можно лайкать посты и отменять лайки).  
-✅ **Лента постов** (сортировка по дате).  
-✅ **Подписки на пользователей** (подписка/отписка).  
-✅ **Реализована поддержка Webpack и SCSS**.  
+**DjangoGramm** is a mini Instagram-like application where users can register, publish posts, like them, follow other users, and edit their profile.
 
 ---
 
-## 👆 Установка и запуск проекта
+## 📌 Main Features
 
-### 1️⃣ Клонируем репозиторий
-```bash
-git clone git@git.foxminded.ua:foxstudent107439/task_14.git
-cd task_14
+✅ **User registration with email confirmation** (via email link)  
+✅ **User authentication** (login/logout)  
+✅ **User profile page** (name, email, avatar, bio, followers)  
+✅ **Create and display image posts**  
+✅ **Tag system** (search by tags, add new tags)  
+✅ **Like system** (like and unlike posts)  
+✅ **Post feed** (sorted by date)  
+✅ **User subscriptions** (follow/unfollow)  
+✅ **Webpack and SCSS integration**  
+
+---
+
+## 👆 Installation & Setup
+
+### 1️⃣ Clone the repository
+```
+git clone git@git.foxminded.ua:foxstudent107439/task_15.git
+cd 15
 ```
 
-### 2️⃣ Создаем виртуальное окружение и активируем его
-```bash
+### 2️⃣  Create and activate virtual environment
+```
 python -m venv venv
-source venv/bin/activate  # для MacOS/Linux
-venv\Scripts\activate   # для Windows
+source venv/bin/activate  # MacOS/Linux
+venv\Scripts\activate     # Windows
 ```
 
-### 3️⃣ Устанавливаем зависимости
-```bash
+### 3️⃣ Install dependencies
+
+```
 pip install -r requirements.txt
 npm install
 ```
 
-### 4️⃣ Настраиваем переменные окружения (`.env`)
-Создайте `.env` и заполните:
+### 4️⃣ Configure environment variables (.env)
+Create a .env file and add the following:
 ```
 DEBUG=True
 SECRET_KEY=your-secret-key
@@ -48,52 +49,53 @@ ALLOWED_HOSTS=127.0.0.1,localhost
 DATABASE_URL=postgres://user:password@localhost:5432/djangogramm
 ```
 
-### 5️⃣ Применяем миграции
-```bash
+### 5️⃣ Apply migrations
+```
 python manage.py migrate
 ```
 
-### 6️⃣ Создаем суперпользователя (админа)
-```bash
+### 6️⃣ Create superuser
+```
 python manage.py createsuperuser
 ```
 
-### 7️⃣ Собираем фронтенд (Webpack)
-```bash
+### 7️⃣ Build frontend (Webpack)
+```
 npx webpack --mode production
 ```
 
-### 8️⃣ Запускаем сервер
-```bash
+### 8️⃣ Run the development server
+```
 python manage.py runserver
 ```
 
-Проект будет доступен по адресу: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+App will be available at: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ---
 
-## 🔒 Аутентификация
+## 🔒 Authentication
 
 ### 📌 Регистрация пользователя
-1. Перейдите на [http://127.0.0.1:8000/users/register/](http://127.0.0.1:8000/users/register/).  
-2. Заполните форму и укажите email.  
-3. Получите письмо с подтверждением и перейдите по ссылке.  
-4. После подтверждения email вы можете войти в аккаунт.  
+📌 User Registration
+Go to http://127.0.0.1:8000/users/register/
+Fill out the form and provide your email
+Confirm your email via the received link
+Log in after confirmation
 
-### 📌 Вход в систему
-- Перейдите на [http://127.0.0.1:8000/users/login/](http://127.0.0.1:8000/users/login/)  
-- Введите логин и пароль, после чего попадете в профиль.  
+### Login
+Visit http://127.0.0.1:8000/users/login/
+Enter credentials to log in
 
-### 📌 Выход из аккаунта
-- Перейдите на [http://127.0.0.1:8000/users/logout/](http://127.0.0.1:8000/users/logout/)  
-- После выхода вас перенаправит на страницу входа.  
+### 📌 Logout
+Visit http://127.0.0.1:8000/users/logout/
+You will be redirected to the login page
 
 ---
 
-## 🛠 Технологии
+## 🛠 Technologies Used
 
 - **Backend:** Django 5.1.5, Django REST Framework
-- **Database:** PostgreSQL (в продакшене)
+- **Database:** PostgreSQL (in prod)
 - **Frontend:** JavaScript, Webpack, SCSS, Bootstrap
 - **Forms & Validation:** Django Forms
 - **Messages & Notifications:** Django Messages
@@ -101,141 +103,128 @@ python manage.py runserver
 
 ---
 
-## 👤 Подписки и лайки
+## 👤Subscriptions & Likes
 
-- **Подписки:** можно подписываться на других пользователей.
-- **Отображение подписок:** кнопка "Подписаться" или "Отписаться".
-- **Лайки:** ставьте и убирайте лайки под постами.
-
+- **Subscriptions:** You can subscribe to other users.
+- **Subscriptions display:** "Subscribe" or "Unsubscribe" button.
+- **Likes:** Put and remove likes under posts.
 ---
 
-## 📂 Структура проекта
+## 📂 Project structure
 
 ```
-django_gramm/                  # Корневая директория проекта Django
-├── django_gramm/              # Основная папка проекта Django (конфигурация)
-│   ├── __init__.py            # Файл инициализации пакета
-│   ├── asgi.py                # Файл конфигурации для ASGI-сервера
-│   ├── settings.py            # Основные настройки Django-проекта
-│   ├── urls.py                # Основные маршруты проекта
-│   ├── wsgi.py                # Файл конфигурации для WSGI-сервера
+django_gramm/                  # Root directory of the Django project
+├── django_gramm/              # Main Django project folder (configuration)
+│   ├── __init__.py            # Package initialization file
+│   ├── asgi.py                # ASGI server configuration
+│   ├── settings.py            # Main settings file for the Django project
+│   ├── urls.py                # Root URL configuration
+│   ├── wsgi.py                # WSGI server configuration
 │
-├── frontend/                  # Папка с исходными файлами фронтенда
-│   ├── dist/                  # Скомпилированные файлы (Webpack)
-│   │   ├── bundle.js          # Основной скомпилированный JS-файл
-│   │   ├── bundle.js.LICENSE.txt  # Лицензионная информация Webpack
-│   ├── src/                   # Исходный код фронтенда
-│   │   ├── index.js           # Точка входа для Webpack
-│   │   ├── main.js            # Основной JS-файл с логикой работы
-│   │   ├── styles.scss        # Основные стили проекта (SCSS)
+├── frontend/                  # Frontend source files
+│   ├── dist/                  # Compiled assets (via Webpack)
+│   │   ├── bundle.js          # Main compiled JavaScript file
+│   │   ├── bundle.js.LICENSE.txt  # Webpack license info
+│   ├── src/                   # Raw frontend source code
+│   │   ├── index.js           # Webpack entry point
+│   │   ├── main.js            # Main JavaScript logic
+│   │   ├── styles.scss        # Main SCSS styles
 │
-├── media/                     # Папка для загруженных пользователями файлов
-│   ├── avatars/               # Папка для хранения аватарок пользователей
-│   │   ├── IMG_0354_Original.jpeg  # Пример загруженного изображения
-│   │   ├── IMG_8105.jpeg      # Еще одно загруженное изображение
-│   │   ├── IMG_20190707_194001_815_Original.jpeg  # Еще одно изображение
+├── media/                     # User-uploaded media files
+│   ├── avatars/               # Folder for user profile pictures
+│   │   ├── IMG_0354_Original.jpeg  # Example uploaded image
+│   │   ├── IMG_8105.jpeg      # Another uploaded image
+│   │   ├── IMG_20190707_194001_815_Original.jpeg  # Another sample image
 │
-├── node_modules/              # Папка с модулями npm (устанавливается через `npm install`)
+├── node_modules/              # npm packages (installed via `npm install`)
 │
-├── posts/                     # Приложение для работы с постами
-│   ├── migrations/            # Миграции базы данных Django
-│   ├── static/                # Статические файлы (не используются напрямую)
-│   ├── templates/posts/       # Шаблоны HTML для постов
-│   │   ├── create_post.html   # Шаблон страницы создания поста
-│   │   ├── post_detail.html   # Шаблон страницы детального просмотра поста
-│   │   ├── post_list.html     # Шаблон страницы списка постов
-│   ├── tests/                 # Тесты приложения `posts`
-│   ├── __init__.py            # Инициализация пакета
-│   ├── admin.py               # Админка для управления постами
-│   ├── apps.py                # Конфигурация приложения `posts`
-│   ├── forms.py               # Формы для создания и редактирования постов
-│   ├── models.py              # Модели базы данных для постов
-│   ├── views.py               # Контроллеры (логика представлений)
-│   ├── urls.py                # Маршруты для приложения `posts`
+├── posts/                     # App for managing posts
+│   ├── migrations/            # Django database migrations
+│   ├── static/                # Static files (not used directly)
+│   ├── templates/posts/       # HTML templates for posts
+│   │   ├── create_post.html   # Template for creating a post
+│   │   ├── post_detail.html   # Template for post detail view
+│   │   ├── post_list.html     # Template for post list
+│   ├── tests/                 # Tests for the `posts` app
+│   ├── __init__.py            # Package initialization
+│   ├── admin.py               # Admin configuration for posts
+│   ├── apps.py                # App configuration for `posts`
+│   ├── forms.py               # Forms for creating/editing posts
+│   ├── models.py              # Post database models
+│   ├── views.py               # View logic for posts
+│   ├── urls.py                # URL routing for `posts` app
 │
-├── static/                    # Статические файлы проекта
-│   ├── css/                   # CSS-файлы
-│   ├── frontend/              # Фронтенд-файлы
-│   │   ├── bundle.js          # Скомпилированный фронтенд JS
-│   │   ├── bundle.js.LICENSE.txt  # Лицензия Webpack
-│   ├── js/                    # JS-файлы
-│   ├── favicon.ico            # Иконка сайта
+├── static/                    # Project-wide static files
+│   ├── css/                   # CSS files
+│   ├── frontend/              # Compiled frontend files
+│   │   ├── bundle.js          # Compiled frontend JS
+│   │   ├── bundle.js.LICENSE.txt  # Webpack license file
+│   ├── js/                    # JavaScript files
+│   ├── favicon.ico            # Website favicon
 │
-├── staticfiles/               # Папка для собранных статических файлов (`collectstatic`)
-│   ├── admin/                 # Статические файлы Django-админки
-│   ├── cloudinary/            # Файлы, связанные с Cloudinary (если используется)
-│   ├── css/                   # Собранные CSS-файлы
-│   ├── debug_toolbar/         # Файлы Django Debug Toolbar
-│   ├── frontend/              # Собранные фронтенд-файлы
-│   ├── js/                    # Собранные JS-файлы
+├── staticfiles/               # Collected static files (`collectstatic` output)
+│   ├── admin/                 # Django admin static files
+│   ├── cloudinary/            # Cloudinary-related files (if used)
+│   ├── css/                   # Collected CSS files
+│   ├── debug_toolbar/         # Django Debug Toolbar static files
+│   ├── frontend/              # Collected frontend files
+│   ├── js/                    # Collected JavaScript files
 │
-├── templates/                 # Общие шаблоны проекта
-│   ├── base.html              # Базовый HTML-шаблон
-│   ├── home.html
-├── users/                     # Приложение пользователей
-│   ├── migrations/            # Миграции базы данных
-│   ├── templates/users/       # Шаблоны HTML для пользователей
-│   │   ├── edit_profile.html  # Шаблон страницы редактирования профиля
-│   │   ├── email_already_confirmed.html  # Подтверждение email
-│   │   ├── login.html         # Шаблон страницы входа
-│   │   ├── profile.html       # Шаблон профиля пользователя
-│   │   ├── register.html      # Шаблон страницы регистрации
-│   │   ├── registration_pending.html  # Ожидание подтверждения регистрации
-│   ├── tests/                 # Тесты приложения `users`
-│   ├── __init__.py            # Инициализация пакета
-│   ├── admin.py               # Админка для управления пользователями
-│   ├── apps.py                # Конфигурация приложения `users`
-│   ├── forms.py               # Формы для работы с пользователями
-│   ├── models.py              # Модели базы данных для пользователей
-│   ├── views.py               # Контроллеры (логика представлений)
-│   ├── urls.py                # Маршруты для приложения `users`
+├── templates/                 # Project-wide HTML templates
+│   ├── base.html              # Base HTML layout
+│   ├── home.html              # Homepage template
 │
-├── tests/                     # Общие тесты проекта
-│   ├── __init__.py            # Инициализация пакета
-│   ├── test_forms.py          # Тесты форм
-│   ├── test_models.py         # Тесты моделей
-│   ├── test_views.py          # Тесты представлений
+├── users/                     # App for user management
+│   ├── migrations/            # Database migrations for users
+│   ├── templates/users/       # HTML templates for user-related pages
+│   │   ├── edit_profile.html  # Profile edit page
+│   │   ├── email_already_confirmed.html  # Email already confirmed message
+│   │   ├── login.html         # Login page
+│   │   ├── profile.html       # User profile page
+│   │   ├── register.html      # Registration page
+│   │   ├── registration_pending.html  # Waiting for email confirmation
+│   ├── tests/                 # Tests for the `users` app
+│   ├── __init__.py            # Package initialization
+│   ├── admin.py               # Admin configuration for users
+│   ├── apps.py                # App configuration for `users`
+│   ├── forms.py               # Forms for user creation and editing
+│   ├── models.py              # User database models
+│   ├── views.py               # View logic for users
+│   ├── urls.py                # URL routing for `users` app
 │
-├── .env                       # Файл с переменными окружения (не включать в репозиторий)
-├── .gitignore                 # Файл, определяющий, какие файлы игнорировать в Git
-├── debug.log                  # Лог-файл (игнорируется в Git)
-├── manage.py                  # Главный файл для управления Django-проектом
-├── package.json               # Конфигурация npm-пакетов
-├── package-lock.json          # Автоматически сгенерированный файл зависимостей npm
-├── pytest.ini                 # Конфигурация тестов `pytest`
-├── README.md                  # Документация проекта
-├── requirements.txt           # Список зависимостей Python
-├── webpack.config.js          # Конфигурация Webpack для сборки фронтенда
+├── tests/                     # General project-level tests
+│   ├── __init__.py            # Package initialization
+│   ├── test_forms.py          # Tests for forms
+│   ├── test_models.py         # Tests for models
+│   ├── test_views.py          # Tests for views
+│
+├── .env                       # Environment variables file (do not commit)
+├── .gitignore                 # Git ignore rules
+├── debug.log                  # Log file (ignored by Git)
+├── manage.py                  # Django management utility
+├── package.json               # npm package configuration
+├── package-lock.json          # Auto-generated npm dependency lock file
+├── pytest.ini                 # Pytest configuration
+├── README.md                  # Project documentation
+├── requirements.txt           # Python dependencies
+├── webpack.config.js          # Webpack configuration file
 
 
 ---
 
-## 💪 Дальнейшие улучшения
-
-✅ **Добавить API для мобильного приложения**  
-✅ **Реализовать загрузку изображений в Cloudinary**  
-✅ **Оптимизировать запросы к базе (select_related, prefetch_related)**  
-✅ **Добавить поиск по постам и пользователям**  
-✅ **Улучшить UI и добавить адаптивность**  
-
+## 🚀 Deployment
+Configure .env file on the server
+Run docker-compose up -d
+Apply migrations: python manage.py migrate
+Collect static files: python manage.py collectstatic
+Start Gunicorn or Uvicorn (if using ASGI)
 ---
 
-## 🚀 Деплой
-1. Настроить `.env` на сервере.  
-2. Запустить `docker-compose up -d`.  
-3. Выполнить миграции `python manage.py migrate`.  
-4. Собрать статику `python manage.py collectstatic`.  
-5. Запустить Gunicorn или Uvicorn (если используется ASGI).  
+## 👨‍💻 Author
+
+🌟 Developer: Ivan Revchuk
+🌟 Mentor: Foxminded Team
 
 ---
-
-## 👨‍💻 Авторы
-
-🌟 **Разработчик:** Ivan Revchuk  
-🌟 **Ментор:** Foxminded Team  
-
----
-
-## 📜 Лицензия
-Этот проект распространяется под лицензией MIT. См. файл `LICENSE` для деталей.  
-
+📜 License
+This project is licensed under the MIT License. See the LICENSE file for more info.
