@@ -3,10 +3,10 @@ from .models import CustomUser
 
 
 @admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):  # Исправлено имя класса
+class CustomUserAdmin(admin.ModelAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name',
-                    'is_active', 'is_staff')  # Исправлено поле
+                    'is_active', 'is_staff')
     search_fields = ('username', 'email', 'first_name',
-                     'last_name')  # Поиск по имени и email
-    list_filter = ('is_active', 'is_staff')  # Фильтры
-    ordering = ('username',)  # Сортировка по алфавиту
+                     'last_name')
+    list_filter = ('is_active', 'is_staff')
+    ordering = ('username',)

@@ -16,6 +16,7 @@ from django.utils.decorators import method_decorator
 
 logger = logging.getLogger(__name__)
 
+
 def home(request):
     return render(request, 'home.html')
 
@@ -25,10 +26,11 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # Пользователь становится активным после подтверждения
+            # The user becomes active after confirmation.
+            user.is_active = False
             user.save()
 
-            # Отправка подтверждающего письма
+            # Sending a confirmation email
             current_site = get_current_site(request)
             subject = 'Подтверждение регистрации'
             message = f'''
@@ -44,6 +46,7 @@ def register(request):
 
     return render(request, 'users/register.html', {'form': form})
 
+
 def confirm_email(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     if not user.is_email_verified:
@@ -56,6 +59,7 @@ def confirm_email(request, user_id):
     else:
         messages.warning(request, "Ваш email уже был подтвержден.")
         return redirect('users:login')
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -74,13 +78,15 @@ def login_view(request):
 
     return render(request, 'users/login.html')
 
+
 @login_required
 def profile(request):
     return render(request, 'users/profile.html')
 
+
 @login_required
 def edit_profile(request):
-    """Функция редактирования профиля"""
+    """Profile editing function"""
     user = request.user
 
     if request.method == 'POST':
@@ -95,9 +101,10 @@ def edit_profile(request):
 
     return render(request, 'users/edit_profile.html', {'form': form})
 
+
 @method_decorator(login_required, name='dispatch')
 class FollowUserView(View):
-    """Представление для подписки на пользователя."""
+    """Subscription view for a user."""
 
     def post(self, request, user_id):
         print(f"🔵 Получен запрос на подписку от {request.user} на {user_id}")
@@ -107,21 +114,24 @@ class FollowUserView(View):
         following = get_object_or_404(CustomUser, id=user_id)
 
         if follower == following:
-            print(f"⚠️ Пользователь {follower} попытался подписаться на самого себя.")
+            print(
+                f"⚠️ Пользователь {follower} попытался подписаться на самого себя.")
             return JsonResponse({"error": "Нельзя подписаться на самого себя"}, status=400)
 
-        follow, created = Follow.objects.get_or_create(follower=follower, following=following)
+        follow, created = Follow.objects.get_or_create(
+            follower=follower, following=following)
 
         if created:
-            
+
             print(f"✅ Подписка создана: {follower} -> {following}")
         else:
-            # Если подписка уже была, удаляем ее (то есть это "отписка")
+            # If there was already a subscription, we delete it (that is, this is "unsubscribe")
             follow.delete()
             print(f"❌ Отписка: {follower} -> {following}")
-            followers_count = Follow.objects.filter(following=following).count()
+            followers_count = Follow.objects.filter(
+                following=following).count()
             return JsonResponse({"message": f"Вы отписались от {following.username}", "followers_count": followers_count}, status=200)
-        # Обновляем число подписчиков
+        # Updating the number of subscribers
         followers_count = Follow.objects.filter(following=following).count()
 
         return JsonResponse({"message": f"Вы подписались на {following.username}", "followers_count": followers_count}, status=201)
@@ -129,16 +139,16 @@ class FollowUserView(View):
 
 @login_required
 def check_follow_status(request, user_id):
-    """Проверяет, подписан ли текущий пользователь на другого пользователя."""
+    """Checks if the current user is following another user.."""
     user_to_check = get_object_or_404(CustomUser, id=user_id)
-    is_following = Follow.objects.filter(follower=request.user, following=user_to_check).exists()
+    is_following = Follow.objects.filter(
+        follower=request.user, following=user_to_check).exists()
     return JsonResponse({"is_following": is_following})
-
 
 
 @method_decorator(login_required, name='dispatch')
 class UnfollowUserView(View):
-    """Представление для отписки от пользователя."""
+    """View for unsubscribing from a user."""
 
     def post(self, request, user_id):
         print(f"🔴 Получен запрос на отписку от {request.user} от {user_id}")
@@ -146,7 +156,8 @@ class UnfollowUserView(View):
         follower = request.user
         following = get_object_or_404(CustomUser, id=user_id)
 
-        follow = Follow.objects.filter(follower=follower, following=following).first()
+        follow = Follow.objects.filter(
+            follower=follower, following=following).first()
 
         if not follow:
             print(f"⚠️ Ошибка: {follower} не подписан на {following}")

@@ -32,14 +32,14 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class EditProfileForm(forms.ModelForm):
-    """Форма редактирования профиля пользователя"""
+    """User profile editing form"""
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'bio', 'avatar']
 
     def clean_avatar(self):
         avatar = self.cleaned_data.get('avatar')
-        if avatar and avatar.size > 2 * 1024 * 1024:  # Ограничение на 2МБ
+        if avatar and avatar.size > 2 * 1024 * 1024:  # 2MB limit
             raise forms.ValidationError(
                 "Размер изображения не должен превышать 2МБ")
         return avatar

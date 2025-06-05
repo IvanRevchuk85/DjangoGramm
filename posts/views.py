@@ -11,33 +11,37 @@ from .forms import PostForm
 
 logger = logging.getLogger(__name__)
 
+
 def post_list(request):
-    """Отображение списка всех постов"""
+    """Displaying a list of all posts"""
     logger.info("📌 Получен запрос на страницу постов")
 
-    posts = Post.objects.prefetch_related('images', 'likes').order_by('-created_at')
+    posts = Post.objects.prefetch_related(
+        'images', 'likes').order_by('-created_at')
 
-    # Проверяем, есть ли у поста изображения
+    # Checking if a post has images
     for post in posts:
-        post.has_images = post.images.exists()  # Проверяем, есть ли у поста изображения
+        post.has_images = post.images.exists()  # Checking if a post has images
 
-        # ✅ Добавляем атрибут `is_followed`, проверяя подписку текущего пользователя
-        post.is_followed = post.user.followers.filter(follower=request.user).exists()
+        # ✅ Add the `is_followed` attribute to check if the current user is followed
+        post.is_followed = post.user.followers.filter(
+            follower=request.user).exists()
 
     return render(request, 'posts/post_list.html', {'posts': posts})
 
+
 def post_detail(request, post_id):
-    """Отображение одного поста с его изображениями и тегами"""
+    """Displaying a single post with its images and tags"""
     post = get_object_or_404(Post, id=post_id)
     return render(request, 'posts/post_detail.html', {'post': post})
 
 
 @login_required
 def create_post(request):
-    """Создание нового поста с изображениями и тегами"""
+    """Create a new post with images and tags"""
     if request.method == 'POST':
         print("📌 DEBUG: Получен POST-запрос")
-        # Проверяем, приходят ли файлы
+        # Checking if files are arriving
         print("📌 DEBUG: request.FILES ->", request.FILES)
 
         form = PostForm(request.POST, request.FILES)
@@ -46,7 +50,7 @@ def create_post(request):
             post.user = request.user
             post.save()
 
-            # Обрабатываем загрузку нескольких изображений
+            # Handling multiple image uploads
             images = request.FILES.getlist('images')
             if images:
                 for image in images:
@@ -65,7 +69,7 @@ def create_post(request):
 
 @login_required
 def edit_post(request, post_id):
-    """Редактирование существующего поста"""
+    """Editing an existing post"""
     post = get_object_or_404(Post, id=post_id, user=request.user)
 
     if request.method == 'POST':
@@ -73,7 +77,7 @@ def edit_post(request, post_id):
         if form.is_valid():
             form.save()
 
-            # Обновляем теги
+            # Updating tags
             post.tags.clear()
             tags_input = request.POST.get('tags', '')
             if tags_input:
@@ -93,7 +97,7 @@ def edit_post(request, post_id):
 
 @login_required
 def delete_post(request, post_id):
-    """Удаление поста (только автор может удалить свой пост)"""
+    """Deleting a post (only the author can delete their post)"""
     if request.method == "POST":
         post = get_object_or_404(Post, id=post_id, user=request.user)
         post.images.all().delete()
@@ -103,19 +107,19 @@ def delete_post(request, post_id):
     return redirect('posts:post_list')
 
 
-@csrf_exempt  # Убери его после исправления передачи CSRF-токена!
+@csrf_exempt  # Remove it after fixing CSRF token transmission!
 @login_required
 def toggle_like(request, post_id):
-    """Добавление или удаление лайка к посту"""
+    """Adding or removing a like to a post"""
     post = get_object_or_404(Post, id=post_id)
 
     post = get_object_or_404(Post, id=post_id)
 
     if request.user in post.likes.all():
-        post.likes.remove(request.user)  # Удаляем лайк
+        post.likes.remove(request.user)  # Delete the like
         liked = False
     else:
-        post.likes.add(request.user)  # Добавляем лайк
+        post.likes.add(request.user)  # Add a like
         liked = True
 
     return JsonResponse({'liked': liked, 'total_likes': post.likes.count()})

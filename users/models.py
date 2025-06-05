@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    """Кастомная модель пользователя."""
+    """Custom user model."""
     email = models.EmailField(unique=True, verbose_name="Email")
     bio = models.TextField(blank=True, null=True, verbose_name="Биография")
     avatar = models.ImageField(
@@ -23,15 +23,15 @@ class CustomUser(AbstractUser):
     )
 
     def followers_count(self):
-        """Количество подписчиков"""
+        """Number of subscribers"""
         return self.followers.count()
 
     def following_count(self):
-        """Количество подписок"""
+        """Number of subscriptions"""
         return self.following.count()
 
     def get_full_name(self):
-        """Возвращает полное имя как 'Имя Фамилия'"""
+        """Returns the full name as 'First Name Last Name'"""
         return f"{self.first_name} {self.last_name}".strip()
 
     class Meta:
@@ -43,7 +43,7 @@ class CustomUser(AbstractUser):
 
 
 class Follow(models.Model):
-    """Модель подписки на пользователей."""
+    """User subscription model."""
     follower = models.ForeignKey(
         CustomUser,
         related_name="following",

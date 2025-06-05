@@ -12,7 +12,7 @@ User = get_user_model()
 
 
 class Post(models.Model):
-    """Модель поста"""
+    """Post model"""
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts'
     )
@@ -37,16 +37,16 @@ class Post(models.Model):
 
 
 def validate_image(image):
-    """Проверяет, является ли файл изображением"""
+    """Check if file is an image"""
     try:
         img = Image.open(image)
-        img.verify()  # Проверка, является ли файл корректным изображением
+        img.verify()  # Checking if a file is a valid image
     except (UnidentifiedImageError, OSError):
         raise ValidationError("Загружаемый файл не является изображением!")
 
 
 class PostImage(models.Model):
-    """Модель изображений к постам с превью"""
+    """Model of images for post whith previews"""
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name='images'
     )
@@ -55,12 +55,12 @@ class PostImage(models.Model):
         blank=True, null=True, verbose_name="Превью изображения")
 
     def save(self, *args, **kwargs):
-        """Создание превью перед сохранением"""
-        super().save(*args, **kwargs)  # Сохраняем оригинальное изображение
+        """Create a preview before saving"""
+        super().save(*args, **kwargs)  # Save the original image
 
         if self.image:
             try:
-                # Присваиваем изображению превью, Cloudinary сам создаст уменьшенную версию
+                # Assign a preview to the image, Cloudinary will create a smaller version itself
                 self.thumbnail = self.image
                 super().save(update_fields=['thumbnail'])
             except Exception as e:
@@ -75,7 +75,7 @@ class PostImage(models.Model):
 
 
 class Tag(models.Model):
-    """Модель тегов"""
+    """Tegs model"""
     name = models.CharField(max_length=50, unique=True,
                             verbose_name="Название тега")
     posts = models.ManyToManyField(
